@@ -1,0 +1,96 @@
+{% extends "_base.html" %}
+{% block head %}
+	{{ super() }}
+	<script src="/static/js/dbtools.js"></script>
+{% endblock %}
+{% block content %}
+	<h1 class="page-header">DB Tools</h1>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="form-group">
+				<select class="form-control" name="db_name" id="db_name">
+					{% for db in dbs %}
+						<option value="{{ db }}" {% if db_name==db %}selected{% endif %}>{{ db }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" name="table_name" id="table_name">
+					{% for table in tables %}
+						<option value="{{ table }}" {% if table_name==table %}selected{% endif %}>{{ table }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group">
+				<input type="text" id="object_name" class="form-control" placeholder="Object Name"
+				       value="{{ object_name }}"/>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" id="changeTable">Submit</button>
+			</div>
+			<table class="table table-bordered table-hover">
+				<thead>
+				<th>Field</th>
+				<th>Type</th>
+				<th>Null</th>
+				<th>Key</th>
+				<th>Default</th>
+				<th>Extra</th>
+				</thead>
+				<tbody>
+				{% for field in fields %}
+					<tr>
+						<td>{{ field['field'] }}</td>
+						<td>{{ field['type'] }}</td>
+						<td>{{ field['isNull'] }}</td>
+						<td>{{ field['key'] }}</td>
+						<td>{{ field['defaultValue'] }}</td>
+						<td>{{ field['extra'] }}</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-lg-12">
+			<!--
+			<div class="form-group">
+				<label>Simple Select SQL</label>
+				<div class="well well-code">{{ simple_select_sql }}</div>
+			</div>
+			<div class="form-group">
+				<label>Select SQL</label>
+				<div class="well well-code">{{ select_sql }}</div>
+			</div>
+			<div class="form-group">
+				<label>Insert SQL</label>
+				<div class="well well-code">{{ insert_sql }}</div>
+			</div>
+			<div class="form-group">
+				<label>Update SQL</label>
+				<div class="well well-code">{{ update_sql }}</div>
+			</div>
+			<div class="form-group">
+				<label>Delete SQL</label>
+				<div class="well well-code">{{ delete_sql }}</div>
+			</div>
+			-->
+			<div class="form-group">
+				<label>Java Entity</label>
+				<pre class="well well-code">{{ java_code | safe }}</pre>
+			</div>
+			<div class="form-group">
+				<label>Java Mapper</label>
+				<pre class="well well-code">{{ java_mapper | safe }}</pre>
+			</div>
+			<div class="form-group">
+				<label>Java Service</label>
+				<pre class="well well-code">{{ java_service | safe }}</pre>
+			</div>
+			<div class="form-group">
+				<label>Mybatis XML</label>
+				<pre class="well well-code">{{ mybatis_xml | safe }}</pre>
+			</div>
+			<br/><br/><br/><br/><br/><br/>
+		</div>
+	</div>
+{% endblock %}
