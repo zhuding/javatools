@@ -38,6 +38,7 @@ def db_tools():
 	java_mapper = ''
 	java_service = ''
 	mybatis_xml = ''
+	test_case = ''
 
 	if object_name:
 		insert_sql = get_insert_sql(object_name, table_name, fields)
@@ -49,6 +50,7 @@ def db_tools():
 		java_mapper = getJavaMapper(object_name)
 		java_service = getJavaService(object_name)
 		mybatis_xml = get_mybatis_xml(object_name, table_name, fields)
+		test_case = get_test_case(object_name)
 	else:
 		object_name = ''
 
@@ -57,4 +59,4 @@ def db_tools():
 						   fields=fields, insert_sql=insert_sql, update_sql=update_sql, select_sql=select_sql,
 						   simple_select_sql=simple_select_sql, delete_sql=delete_sql, java_code=java_code,
 						   java_mapper=java_mapper, java_service=java_service,
-						   mybatis_xml=mybatis_xml, object_name=object_name)
+						   mybatis_xml=mybatis_xml, object_name=object_name, test_case=test_case)

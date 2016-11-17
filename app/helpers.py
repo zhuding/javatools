@@ -204,6 +204,7 @@ def getJavaMapper(objectName):
 
 	code += "\t" + '/**' + "<br/>"
 	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -212,6 +213,8 @@ def getJavaMapper(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -220,6 +223,8 @@ def getJavaMapper(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -228,6 +233,8 @@ def getJavaMapper(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -236,6 +243,8 @@ def getJavaMapper(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -249,6 +258,8 @@ def getJavaService(objectName):
 	code = "public interface " + className + "Service {<br/>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -257,6 +268,8 @@ def getJavaService(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -265,6 +278,8 @@ def getJavaService(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param '+objectName+'Id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -273,6 +288,8 @@ def getJavaService(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param '+objectName+'Id' + "<br/>"
 	code += "\t" + ' * @return ' + className + "<br/>"
 	code += "\t" + ' */' + "<br/>"
@@ -281,10 +298,39 @@ def getJavaService(objectName):
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
+	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
+	code += "\t" + ' *' + "<br/>"
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return List&lt;' + className + '&gt;'+"<br/>"
 	code += "\t" + ' */' + "<br/>"
 	code += "\t"+ 'public List&lt;' + className + '&gt; get' + className + 's();' + "<br/>"
+
+	code += '}';
+	return code
+
+def get_test_case(objectName):
+	className = titleFirst(objectName)
+	code = "public class " + className + "ServiceTest {<br/><br/>"
+
+	code += "\t" + 'private static final Logger logger = LoggerFactory.getLogger(' + className + 'ServiceTest.class);' + "<br/>"
+
+	code += "\t" + 'private static ' + className + ' ' + objectName + ';' + "<br/>"
+	code += "\t" + 'private static ' + className + 'ServiceImpl ' + objectName + 'ServiceImpl;' + "<br/>"
+	code += "\t" + 'private static ' + className + 'Mapper ' + objectName + 'Mapper;' + "<br/><br/>"
+
+	code += "\t" + '@SuppressWarnings("resource")' + "<br/>"
+	code += "\t" + '@BeforeClass' + "<br/>"
+	code += "\t" + 'public static void init() {' + "<br/>"
+	code += "\t\t" + 'ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:applicationContext-test.xml");' + "<br/>"
+	code += "\t\t" + objectName + 'Mapper = (' + className + 'Mapper) context.getBean("' + objectName + 'Mapper");' + "<br/>"
+	code += "\t\t" + objectName + 'ServiceImpl = (' + className + 'ServiceImpl) context.getBean("' + objectName + 'ServiceImpl");' + "<br/><br/>"
+
+	code += "\t\t" + 'ReflectionTestUtils.setField(' + objectName + 'ServiceImpl, "' + objectName + 'Mapper", ' + objectName + 'Mapper);' + "<br/><br/>"
+
+	code += "\t\t" + objectName + ' = new ' + className + '();' + "<br/>"
+	code += "\t" + '}' + "<br/>"
+
+	code += "<br>"
 
 	code += '}';
 	return code
