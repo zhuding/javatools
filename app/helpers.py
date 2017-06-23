@@ -133,7 +133,7 @@ def get_java_code(objectName, fields):
 	code = "public class " + titleFirst(objectName) + " {<br/>"
 	for field in fields:
 		attr = convertField(field['field'])
-		code += "\t" + '/** ' + field['comment'] + '*/' + "<br/>"
+		code += "\t" + '// ' + field['comment'] + '' + "<br/>"
 		code += "\t" + 'private String ' + attr + ";<br/>"
 	code += '}';
 	return code
@@ -170,7 +170,7 @@ def get_mybatis_xml(objectName, tableName, fields):
 	code += "\t&lt;/select&gt;<br/><br/>"
 
 	# Select all SQL
-	code += "\t&lt;select id=\"get" + className + "s\" resultMap=\"" + objectName + "Map\"&gt;<br/>"
+	code += "\t&lt;select id=\"get" + className + "List\" resultMap=\"" + objectName + "Map\"&gt;<br/>"
 	code += "\t\t&lt;include refid=\"selectFields\" /&gt;<br/>"
 	code += "\t\tORDER BY id DESC<br/>"
 	code += "\t&lt;/select&gt;<br/><br/>"
@@ -208,7 +208,7 @@ def getJavaMapper(objectName):
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int create' + className + '(' + className + ' '+objectName+');' + "<br/>"
+	code += "\t"+ 'int create' + className + '(' + className + ' '+objectName+');' + "<br/>"
 
 	code += "<br>"
 
@@ -218,7 +218,7 @@ def getJavaMapper(objectName):
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int update' + className + '(' + className + ' '+objectName+');' + "<br/>"
+	code += "\t"+ 'int update' + className + '(' + className + ' '+objectName+');' + "<br/>"
 
 	code += "<br>"
 
@@ -228,7 +228,7 @@ def getJavaMapper(objectName):
 	code += "\t" + ' * @param id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int delete' + className + '(@Param("id") int id);' + "<br/>"
+	code += "\t"+ 'int delete' + className + '(@Param("id") int id);' + "<br/>"
 
 	code += "<br>"
 
@@ -238,17 +238,16 @@ def getJavaMapper(objectName):
 	code += "\t" + ' * @param id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public ' + className + ' get' + className + 'ById(@Param("id") int id);' + "<br/>"
+	code += "\t"+ '' + className + ' get' + className + 'ById(@Param("id") int id);' + "<br/>"
 
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
 	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
 	code += "\t" + ' *' + "<br/>"
-	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public List&lt;' + className + '&gt; get' + className + 's();' + "<br/>"
+	code += "\t"+ 'List&lt;' + className + '&gt; get' + className + 'List();' + "<br/>"
 
 	code += '}';
 	return code
@@ -263,7 +262,7 @@ def getJavaService(objectName):
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int create' + className + '(' + className + ' '+objectName+');' + "<br/>"
+	code += "\t"+ 'int create' + className + '(' + className + ' '+objectName+');' + "<br/>"
 
 	code += "<br>"
 
@@ -273,7 +272,7 @@ def getJavaService(objectName):
 	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int update' + className + '(' + className + ' '+objectName+');' + "<br/>"
+	code += "\t"+ 'int update' + className + '(' + className + ' '+objectName+');' + "<br/>"
 
 	code += "<br>"
 
@@ -283,7 +282,7 @@ def getJavaService(objectName):
 	code += "\t" + ' * @param '+objectName+'Id' + "<br/>"
 	code += "\t" + ' * @return int' + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public int delete' + className + '(int '+objectName+'Id);' + "<br/>"
+	code += "\t"+ 'int delete' + className + '(int '+objectName+'Id);' + "<br/>"
 
 	code += "<br>"
 
@@ -293,17 +292,16 @@ def getJavaService(objectName):
 	code += "\t" + ' * @param '+objectName+'Id' + "<br/>"
 	code += "\t" + ' * @return ' + className + "<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public ' + className + ' get' + className + 'ById(int '+objectName+'Id);' + "<br/>"
+	code += "\t"+ '' + className + ' get' + className + 'ById(int '+objectName+'Id);' + "<br/>"
 
 	code += "<br>"
 
 	code += "\t" + '/**' + "<br/>"
 	code += "\t" + ' * &lt;pre&gt;&lt;/pre&gt;' + "<br/>"
 	code += "\t" + ' *' + "<br/>"
-	code += "\t" + ' * @param ' + objectName + "<br/>"
 	code += "\t" + ' * @return List&lt;' + className + '&gt;'+"<br/>"
 	code += "\t" + ' */' + "<br/>"
-	code += "\t"+ 'public List&lt;' + className + '&gt; get' + className + 's();' + "<br/>"
+	code += "\t"+ 'List&lt;' + className + '&gt; get' + className + 'List();' + "<br/>"
 
 	code += '}';
 	return code
