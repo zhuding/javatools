@@ -6,7 +6,7 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # Define the database
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-#SQLALCHEMY_DATABASE_URI = 'mysql://username:password@127.0.0.1/dbname'
+#SQLALCHEMY_DATABASE_URI = 'mysql://root:cy0323@192.168.1.101/cy_qydb'
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is
