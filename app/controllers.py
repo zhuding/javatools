@@ -47,7 +47,7 @@ def db_tools():
 		select_sql = get_select_sql(table_name, fields)
 		simple_select_sql = get_simple_select_sql(table_name, fields)
 		java_code = get_java_code(object_name, fields)
-		java_mapper = getJavaMapper(object_name)
+		java_mapper = getJavaMapper(object_name, table_name, fields)
 		java_service = getJavaService(object_name)
 		mybatis_xml = get_mybatis_xml(object_name, table_name, fields)
 		test_case = get_test_case(object_name)
