@@ -381,6 +381,160 @@ def get_test_case(objectName):
 	code += '}'
 	return code
 
+def get_java_codeStr(objectName, fields):
+	code = "@Data\r"
+	code += "public class " + titleFirst(objectName) + " {\r"
+	for field in fields:
+		attr = convertField(field['field'])
+		code += "    " + '// ' + field['comment'] + '' + "\r"
+		codeType = field['type']
+		if codeType.find('int')==0:
+			codeType = 'Integer'
+		elif codeType.find('tinyint')==0:
+			codeType = 'Integer'
+		elif codeType.find('bigint')==0:
+			codeType = 'Long'
+		elif codeType.find('timestamp')==0:
+			codeType = 'LocalDateTime'
+		elif codeType.find('datetime')==0:
+			codeType = 'LocalDateTime'
+		elif codeType.find('date')==0:
+			codeType = 'LocalDate'
+		elif codeType.find('char')==0:
+			codeType = 'String'
+		elif codeType.find('varchar')==0:
+			codeType = 'String'
+		elif codeType.find('text')>=0:
+			codeType = 'String'
+		elif codeType.find('blob')>=0:
+			codeType = 'String'
+		else:
+			codeType = 'String'
+		code += "    " + 'private ' + codeType + ' ' + attr + ";\r"
+	code += '}'
+	return code
+
+def getJavaMapperStr(objectName, tableName, fields):
+	className = titleFirst(objectName)
+	select_fileds = get_select_field_AS_Bean(tableName, fields)
+	simple_select_sql = get_simple_select_sql(tableName, fields)
+	insert_sql = get_insert_sql(objectName, tableName, fields)
+	update_sql = get_update_sql(objectName, tableName, fields)
+
+	code = "public interface " + className + "Mapper {\r"
+	code += "    " + 'String selectFields = " ' + select_fileds + ' ";\r'
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param ' + objectName + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    " + '@Options(useGeneratedKeys = true, keyProperty = "id")' + "\r"
+	code += "    " + '@Insert("' + insert_sql + '")' + "\r"
+	code += "    " + 'int create' + className + '(' + className + ' ' + objectName + ');' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param ' + objectName + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    " + '@Update("' + update_sql + '")' + "\r"
+	code += "    " + 'int update' + className + '(' + className + ' ' + objectName + ');' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param id' + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    " + '@Delete("DELETE FROM ' + tableName + ' WHERE id=#{id}")' + "\r"
+	code += "    " + 'int delete' + className + '(@Param("id") int id);' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param id' + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    " + '@Select(selectFields + " WHERE id=#{id} ")' + "\r"
+	code += "    " + '' + className + ' get' + className + 'ById(@Param("id") int id);' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    " + '@Select(selectFields + " ORDER BY id DESC ")' + "\r"
+	code += "    " + 'List<' + className + '> get' + className + 'List();' + "\r"
+
+	code += '}'
+	return code
+
+def getJavaServiceStr(objectName):
+	className = titleFirst(objectName)
+	code = "public interface " + className + "Service {\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param ' + objectName + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    "+ 'int create' + className + '(' + className + ' '+objectName+');' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param ' + objectName + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    "+ 'int update' + className + '(' + className + ' '+objectName+');' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param '+objectName+'Id' + "\r"
+	code += "    " + ' * @return int' + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    "+ 'int delete' + className + '(int '+objectName+'Id);' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @param '+objectName+'Id' + "\r"
+	code += "    " + ' * @return ' + className + "\r"
+	code += "    " + ' */' + "\r"
+	code += "    "+ '' + className + ' get' + className + 'ById(int '+objectName+'Id);' + "\r"
+
+	code += "\r"
+
+	code += "    " + '/**' + "\r"
+	code += "    " + ' * <pre></pre>' + "\r"
+	code += "    " + ' *' + "\r"
+	code += "    " + ' * @return List<' + className + '>'+"\r"
+	code += "    " + ' */' + "\r"
+	code += "    "+ 'List<' + className + '> get' + className + 'List();' + "\r"
+
+	code += '}'
+	return code
+
 def convertField(field):
 	fieldList = field.split("_")
 	attr = ''
