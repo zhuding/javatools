@@ -34,6 +34,7 @@
 			<table class="table table-bordered table-hover">
 				<thead>
 				<th>Field</th>
+				<th>Comment</th>
 				<th>Type</th>
 				<th>Null</th>
 				<th>Key</th>
@@ -44,6 +45,7 @@
 				{% for field in fields %}
 					<tr>
 						<td>{{ field['field'] }}</td>
+						<td>{{ field['comment'] }}</td>
 						<td>{{ field['type'] }}</td>
 						<td>{{ field['isNull'] }}</td>
 						<td>{{ field['key'] }}</td>
